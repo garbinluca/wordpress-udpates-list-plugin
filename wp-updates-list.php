@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: WP Updates List
- * Plugin URI: https://www.lucagarbin.it
+ * Plugin URI: https://github.com/garbinluca/wordpress-udpates-list-plugin
  * Description: Get wordpress installation updates list.
  * Version: 1.0
  * Author: Luca Garbin
