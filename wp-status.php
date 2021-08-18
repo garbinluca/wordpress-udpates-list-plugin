@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WP Updates Status
+ * Plugin Name: WP Updates List
  * Plugin URI: https://www.lucagarbin.it
- * Description: Get wordpress installation update status.
+ * Description: Get wordpress installation updates list.
  * Version: 1.0
  * Author: Luca Garbin
  * Author URI: https://www.lucagarbin.it
@@ -10,9 +10,9 @@
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 
-if (!class_exists('WPUpdatesStatus')) :
+if (!class_exists('WPUpdatesList')) :
 
-    class WPUpdatesStatus
+    class WPUpdatesList
     {
 
         public $version = '1.0.0';
@@ -33,7 +33,7 @@ if (!class_exists('WPUpdatesStatus')) :
 
             echo '
             <div class="notice notice-warning is-dismissible">
-                <p><strong>WP Updates Status</strong>: <i>WP_UPDATES_STATUS_KEY</i> must be defined on wp-config.php.</p>
+                <p><strong>WP Updates List</strong>: <i>WP_UPDATES_LIST_KEY</i> must be defined on wp-config.php.</p>
             </div>
         ';
 
@@ -41,14 +41,14 @@ if (!class_exists('WPUpdatesStatus')) :
 
         private function isRegisteredKey()
         {
-            return !(!defined('WP_UPDATES_STATUS_KEY') || !WP_UPDATES_STATUS_KEY || trim(WP_UPDATES_STATUS_KEY) == '');
+            return !(!defined('WP_UPDATES_LIST_KEY') || !WP_UPDATES_LIST_KEY || trim(WP_UPDATES_LIST_KEY) == '');
         }
 
         public function registerRoute()
         {
 
             add_action('rest_api_init', function () {
-                register_rest_route('wp-updates-status/v1', '/list', array(
+                register_rest_route('wp-updates-list/v1', '/list', array(
                     'methods' => 'GET',
                     'callback' => array($this, 'getUpdates'),
                 ));
@@ -60,7 +60,7 @@ if (!class_exists('WPUpdatesStatus')) :
         {
 
             $param = $request['key'];
-            $isInvalid = is_null($param) || trim($param) == '' || $param != WP_UPDATES_STATUS_KEY;
+            $isInvalid = is_null($param) || trim($param) == '' || $param != WP_UPDATES_LIST_KEY;
             if ($isInvalid) {
                 return new WP_REST_Response([
                     'message' => 'Invalid key'
@@ -135,17 +135,17 @@ if (!class_exists('WPUpdatesStatus')) :
 
     }
 
-    function WPUpdatesStatusInstanceInit()
+    function WPUpdatesListInstanceInit()
     {
-        global $WPUpdatesStatusInstanceInit;
+        global $WPUpdatesListInstanceInit;
 
-        if (!isset($WPUpdatesStatusInstanceInit)) {
-            $WPUpdatesStatusInstanceInit = new WPUpdatesStatus();
-            $WPUpdatesStatusInstanceInit->initialize();
+        if (!isset($WPUpdatesListInstanceInit)) {
+            $WPUpdatesListInstanceInit = new WPUpdatesList();
+            $WPUpdatesListInstanceInit->initialize();
         }
-        return $WPUpdatesStatusInstanceInit;
+        return $WPUpdatesListInstanceInit;
     }
 
-    WPUpdatesStatusInstanceInit();
+    WPUpdatesListInstanceInit();
 
 endif;
